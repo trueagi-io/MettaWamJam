@@ -21,12 +21,12 @@ Note: the order of ports is host:container; so if you want your machine to call 
 <hr>
 3. *Open a new terminal command line and run this command:*
 <B>curl -X POST http&#58;//localhost:5000/metta -H "Content-Type: text/plain" --data '!(+ 1 2)'</B>
- 
+<P>
 The above command will return a result of [3] if the installation worked.
 
 <hr>
 4. <B>curl -X POST http&#58;//localhost:5000/stop</B>
-
+<P>
 The above will shut down the server and docker container gracefully when done (again run from your machine outside docker).
 
 
