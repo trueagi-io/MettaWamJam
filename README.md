@@ -5,8 +5,9 @@ MWJ is lightweight, blazing fast SWI-Prolog HTTP server for MeTTa. It provides a
 
 <B>If you just want to use the handy default docker image make sure you have docker installed on your machine and then just run these commands (no need to clone repo):</B>
 
-1) <B>docker pull jazzbox35/mwj</B>
-
+<hr>
+<B>docker pull jazzbox35/mwj</B>
+<hr>
 2) <B>docker run --rm -it -p 5000:5000 mwj 
 jazzbox35/mwj:latest</B>
 <P>
@@ -19,13 +20,14 @@ To pass an input atomspace (any '.metta' file) replace "ATOMSPACE" with the full
 
 Note: the order of ports is host:container; so if you want your machine to call docker using port 80 you would use 80:5000. Once the server starts in a docker container, it will display the ?- Prolog prompt. Just ignore this window until you issue the stop command (below).
 
-
-3) *Open a new terminal command line and run this command:*
+<hr>
+*Open a new terminal command line and run this command:*
 <B>curl -X POST http&#58;//localhost:5000/metta -H "Content-Type: text/plain" --data '!(+ 1 2)'</B>
  
 The above command will return a result of [3] if the installation worked.
 
-4) <B>curl -X POST http&#58;//localhost:5000/stop</B>
+<hr>
+<B>curl -X POST http&#58;//localhost:5000/stop</B>
 
 The above will shut down the server and docker container gracefully when done (again run from your machine outside docker).
 
