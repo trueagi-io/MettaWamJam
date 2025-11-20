@@ -21,3 +21,5 @@ The above will shut down the server and docker container gracefully when done (a
 
 
 If you wish to modify the server, then clone the repo, modify as desired for your installation, and rebuild the Dockerfile. 
+
+"WAM" is an acronym for Warren Abstract Machine.
