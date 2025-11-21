@@ -37,8 +37,14 @@
 :- use_module(library(http/http_dispatch)).
 :- use_module(library(http/http_client)).
 :- use_module(library(http/http_json)).  
+:- use_module(library(http/http_header)).  
 :- use_module(library(json)).  
 
+
+% If the user submits a malformed query, this code will prevent a halt of the swipl server
+% invoked by PeTTa.
+:- redefine_system_predicate(halt/1).
+halt(Status) :- format("Blocked halt(~w).~n", [Status]), !.
 
 % Register HTTP handlers for the /metta and /stop routes.
 % These handlers will be invoked when HTTP requests are made to the respective paths.
@@ -88,11 +94,12 @@ server(Port) :-
    ; Args = [File|_] ->                       % if atomspace passed
         (   exists_file(File)
         ->  file_directory_name(File, Dir),
+            format("~nmwj successfully loaded user atomspace... ~n~n"),
             assertz(working_dir(Dir)),
             load_metta_file(File, Results),
             maplist(swrite, Results, ResultsR),
             maplist(format("~w~n"), ResultsR)
-        ;   true                              % file not found → silently skip
+        ;   format("~nmwj no initial atomspace found... ~n~n")   % file not found → silently skip
         )
    ).
 
@@ -110,28 +117,15 @@ server(Port) :-
 %     % POST request:
 %     $ curl -X POST http://localhost:5000/metta -H 'Content-Type: text/plain' --data '!(+ 1 1)'
 %
-mettaX(Request) :-
+metta(Request) :-
         http_read_data(Request, Body, [to(string)]),
         format('Content-type: application/json~n~n'),
-        process_metta_string(Body, Result),
-        % trap errors...
-        swrite(Result,ResultR),
-        % format correctly...
-        %maplist(swrite,Result,ResultsR),
-        %maplist(format("~w~n"), ResultsR),
-        json_write(current_output, json([result=ResultR])).
-        %reply_json(json([result = Result])).
-
-metta(Request) :-
-    http_read_data(Request, Body, [to(string)]),
-
-    % suppress ALL stdout from process_metta_string/2
-    with_output_to(string(_),
-        process_metta_string(Body, Result)
-    ),
-    swrite(Result,ResultR),
-    reply_json(json([result = ResultR])).
-
+        % suppress output other than the result
+        with_output_to(string(_),
+                process_metta_string(Body, Result)
+            ),
+        maplist(swrite,Result,ResultsR),   
+        write(ResultsR).
 
 %!  stop(+Request) is det.
 %
