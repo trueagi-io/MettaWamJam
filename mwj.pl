@@ -26,6 +26,7 @@
 %
 %     % Shut down the server:
 %     $ curl -v http://localhost:5000/stop
+%     Alternatively, the docker stop command will work.
 %
 %     If your bash shell seems to hang after exit, just enter 'reset', you might not 
 %     see your typing 'reset'.
@@ -36,9 +37,8 @@
 :- use_module(library(http/thread_httpd)).
 :- use_module(library(http/http_dispatch)).
 :- use_module(library(http/http_client)).
-%:- use_module(library(http/http_json)).  
+:- use_module(library(http/http_json)).  
 :- use_module(library(http/http_header)).  
-%:- use_module(library(json)).  
 
 
 % If the user submits a malformed query, this code will prevent a halt of the swipl server
