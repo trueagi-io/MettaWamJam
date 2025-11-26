@@ -45,16 +45,22 @@ RUN pip3 install --no-cache-dir --break-system-packages janus-swi
 # Clone PeTTa repository directly into /PeTTa
 RUN git clone https://github.com/patham9/PeTTa.git /PeTTa
 COPY mwj.pl /PeTTa
+
+# Build mork_ffi for PeTTa to access MORK
 WORKDIR /PeTTa
+RUN sh build.sh
 
 # The Prolog server listens on 5000
 EXPOSE 5000
 
-# Start the Metta WAM server when the container runs
 #CMD ["swipl", "mwj.pl"]
 
-# Always run your server
-ENTRYPOINT ["swipl", "mwj.pl", "atomspace.metta"]
+# Start server
+#ENTRYPOINT ["swipl", "mwj.pl", "atomspace.metta"]
+ENV LD_PRELOAD=/PeTTa/mork_ffi/target/release/libmork_ffi.so
+
+ENTRYPOINT ["swipl","--stack_limit=8g","-q","-s", "mwj.pl","--","mork"]
+
 
 # 👇 **No default argument**
 CMD []
