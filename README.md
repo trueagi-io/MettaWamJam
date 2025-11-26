@@ -1,6 +1,6 @@
 # MettaWamJam
 
-MWJ is a lightweight, blazing-fast SWI-Prolog HTTP server for MeTTa. It provides a `/metta` endpoint for MeTTa execution and `/stop` for controlled shutdown. MWJ runs the PeTTa transpiler for MeTTa and loads the atomspace (if provided).
+MWJ is a lightweight, blazing-fast SWI-Prolog HTTP server for MeTTa. It provides a `/metta` endpoint for MeTTa execution and `/stop` for controlled shutdown. MWJ runs the PeTTa transpiler for MeTTa and loads an atomspace (if provided).
 
 MWJ is not intended for public deployment without additional security hardening, so you should craft your front end if needed. You could, for example, create an Apache front end facing the public internet and restrict access to the MWJ server.
 
