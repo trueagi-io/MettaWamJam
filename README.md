@@ -4,7 +4,7 @@ MWJ is a lightweight, blazing-fast SWI-Prolog HTTP server for MeTTa. It provides
 
 MWJ is not intended for public deployment without additional security hardening, so you should craft your front end if needed. You could, for example, create an Apache front end facing the public internet and restrict access to the MWJ server.
 
-<B>If you just want to use the handy default Docker image make sure you have Docker installed on your machine and then run the commands below. There is no need to clone the repo. The default settings will limit access to just your machine (ie., localhost on 127.0.0.1:5000).</B>
+<B>If you just want to use the handy default Docker image make sure you have Docker installed on your machine and then run the commands below. There is no need to clone the repo. The default settings will limit access to the MWJ server to your machine (ie., localhost on 127.0.0.1:5000).</B>
 
 1. Pull the image
 ```bash
