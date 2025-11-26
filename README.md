@@ -18,7 +18,7 @@ OR WITH YOUR ATOMSPACE
 <P><P>
 To pass an input atomspace (any '.metta' file) replace the all-caps ATOMSPACE above with the full path to your .metta file. Example:  /home/user/my_file.metta:/PeTTa/atomspace.metta  (no quotes)
 
-Note: the order of ports is host:container; so if you want your machine to call docker using port 80 you would use 127.0.0.1:80:5000. 
+Note: the order of ports is host:container; so if you want your machine to invoke the server (ie., call docker) using your machine's host port 80 you would use 127.0.0.1:80:5000. The localhost port 80 is redirected to docker's port 5000 in this scenario.
 
 <hr>
 3. 
