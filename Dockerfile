@@ -5,7 +5,7 @@
 #################################################################
 #    To create arm64 if building on amd64:
 # docker buildx create --use --name mwjbuilder
-# docker buildx build --platform linux/arm64 -t mwj:arm64 --load 
+# docker buildx build --platform linux/arm64 -t mwj:arm64 --load .
 #################################################################
 
 FROM swipl:latest
