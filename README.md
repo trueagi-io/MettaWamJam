@@ -6,12 +6,7 @@ MWJ is not intended for public deployment without additional security hardening,
 
 <B>If you just want to use the handy default Docker image make sure you have Docker installed on your machine and then run the commands below. There is no need to clone the repo. The default settings will limit access to the MWJ server to your machine (ie., localhost on 127.0.0.1:5000).</B>
 
-<B>1. Pull the image</B>
-```bash
-docker pull jazzbox35/mwj
-```
-
-<B>2. Run the container (default)</B>
+<B>1. Pull and run the container (default)</B>
 ```bash
 docker run --rm -d --name mwj -p 127.0.0.1:5000:5000 --tty jazzbox35/mwj:latest
 ```
@@ -24,7 +19,7 @@ To pass an input atomspace, replace `/full/path/to/atomspace.metta` above with t
 
 Note: the order of ports is `host:container`, so if you want your machine to invoke the server using your machine's host port 80 you would use `127.0.0.1:80:5000`.
 
-<B>3. Send a MeTTa query (example)</B>
+<B>2. Send a MeTTa query (example)</B>
 ```bash
 curl -X POST http://localhost:5000/metta \
   -H "Content-Type: text/plain" \
@@ -32,7 +27,7 @@ curl -X POST http://localhost:5000/metta \
 ```
 The above command should return a result of `[3]` if the installation worked. For curl commands, always put single quotes (') around your MeTTa query to avoid shell interpolation.
 
-<B>4. Stop the server (graceful)</B>
+<B>3. Stop the server (graceful)</B>
 ```bash
 curl -X POST http://localhost:5000/stop
 ```
