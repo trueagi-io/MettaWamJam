@@ -2,7 +2,7 @@ import requests
 
 # This is the default IP/PORT
 url = "http://localhost:5000/metta"
-headers = {"Content-Type": "text/plain"}
+headers = {"Content-Type": "text/plain; charset=utf-8" }
 
 # Place your MM2 code below, start the MWJ server, and run this program under Python.
 data = """
@@ -16,7 +16,7 @@ data = """
 
 """
 
-response = requests.post(url, headers=headers, data=data)
-
+response = requests.post(url, headers=headers, data=data.encode("utf-8"))
+response.encoding = "utf-8"
 print("Status:", response.status_code)
 print("Response:", response.text)
