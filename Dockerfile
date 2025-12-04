@@ -52,9 +52,22 @@ RUN pip3 install --no-cache-dir --break-system-packages janus-swi
 RUN git clone https://github.com/patham9/PeTTa.git /PeTTa
 COPY mwj.pl /PeTTa
 
-# Build mork_ffi for PeTTa to access MORK
+Build mork_ffi for PeTTa to access MORK
 WORKDIR /PeTTa
 RUN sh build.sh
+
+# Install facebook vector embeddings tool for use by PeTTa
+#RUN apt-get update \
+# && apt-get install -y --no-install-recommends \
+#      libopenblas-dev \
+#      libblas-dev \
+#      liblapack-dev \
+#      gfortran \
+# && rm -rf /var/lib/apt/lists/*
+#WORKDIR /PeTTa/faiss_ffi
+#RUN sh install_faiss.sh
+
+WORKDIR /PeTTa
 
 # The Prolog server listens on 5000
 EXPOSE 5000
