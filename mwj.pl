@@ -150,4 +150,5 @@ stop(_Request) :-
     ).
 
 % Start the Prolog server
-:- server(5000).
+:- server(5000),
+    thread_get_message(_).
