@@ -49,6 +49,7 @@ halt(Status) :- format("Blocked halt(~w).~n", [Status]), !.
 % These handlers will be invoked when HTTP requests are made to the respective paths.
 :- http_handler(root(metta), metta, []).		
 :- http_handler(root(stop), stop, []).  
+:- http_handler(root(reset), reset, []).  
 
 %!  server(+Port) is det.
 %
@@ -61,7 +62,7 @@ halt(Status) :- format("Blocked halt(~w).~n", [Status]), !.
 %     ?- server(5000).
 %     % Starts the server listening on port 5000.
 server(Port) :-						
-        http_server(http_dispatch, [port(Port)]).
+        http_server(http_dispatch, [port(Port),workers(1)]).  % workers = 1 prevents multi-threading
 
 
 % --- Load PeTTa Prolog code to handle MeTTa calls ------------- %
@@ -148,6 +149,19 @@ stop(_Request) :-
         _,
         [detached(true)]
     ).
+
+% Need means of prolog level reset...
+reset(_Request) :-  
+    %forall(
+    %    ( current_predicate(Name/Arity),
+    %      functor(Head, Name, Arity),
+    %      predicate_property(Head, dynamic)
+    %    ),
+    %    retractall(Head)
+    %),
+    %make,
+    format("Content-type: text/plain~n~n"),
+    format("Reset complete.~n").
 
 % Start the Prolog server
 :- server(5000),
