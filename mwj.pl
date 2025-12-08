@@ -70,36 +70,47 @@ server(Port) :-
 % -------------------------------------------------------------- %
 
 
-% --- Check if atomspace/metta is passed for loading, if so, load
-
-%!  Command-line MeTTa file loader.
+%! --- Initialize and check if atomspace/metta is passed for loading, if so, load ---
 %
-%   Loads a MeTTa file if one is provided as a command-line argument.
-%   If no arguments are passed or the special atom `mork` is used,
-%   this step is skipped. Also will continue if it can't find the 
-%   input MeTTa code / atomspace.
+%   Loads a MeTTa file if one is provided as a command-line argument
+%   when the Prolog system is started. If no arguments are passed, or
+%   if the special atom `mork` is passed, no file will be loaded and
+%   execution continues without attempting to load a MeTTa script.
 %
-%   Useful for preloading a MeTTa script or knowledge base on startup.
+%   If a file path is provided as the first argument and the file exists,
+%   it attempts to load it via `load_metta_file/2`. The results of the
+%   loading are printed to the terminal. If the file does not exist,
+%   a message is printed and execution continues normally.
+%
+%   This is primarily useful for automatically preloading a MeTTa
+%   script or atomspace during startup, such as from the command line.
 %
 %   @example
-%     $ swipl mwj.pl  MyAtomSpace.metta
+%     % Start Prolog and load a MeTTa script:
+%     $ swipl mwj.pl MyAtomSpace.metta
 %
-%   @note The use of `mork` as a no-op flag is for compatibility in case used
-%
-:- current_prolog_flag(argv, Args),
+:- 
+   % Set working directory
+   working_directory(Dir, Dir),               % Variable appears twice but just returns working dir.
+   assertz(working_dir(Dir)),
+   % assertz(working_dir('/PeTTa/faiss_ffi')),  % Hack for docker to see example faiss
+   working_dir(Dir),
+   format("~nmwj working directory > ~w~n~n", Dir),!,
+
+   % Check arguments passed...
+   current_prolog_flag(argv, Args),
    ( Args = [] ->
-        true                                  % do nothing
+        true                                  % No arguments provided → do nothing
    ; Args = [mork] ->
-        true                                  % do nothing
-   ; Args = [File|_] ->                       % if atomspace passed
+        true                                  % Special no-op argument → do nothing
+   ; Args = [File|_] ->                       % First argument is a file path
         (   exists_file(File)
-        ->  file_directory_name(File, Dir),
+        ->  file_directory_name(File, _),     % Extracts atomspace directory (presently nulled out)
+            load_metta_file(File, Results),   % Load MeTTa file / atomspace
             format("~nmwj successfully loaded user atomspace... ~n~n"),
-            assertz(working_dir(Dir)),
-            load_metta_file(File, Results),
-            maplist(swrite, Results, ResultsR),
-            maplist(format("~w~n"), ResultsR)
-        ;   format("~nmwj no initial atomspace found... ~n~n")   % file not found → silently skip
+            maplist(swrite, Results, ResultsR),   % Convert results to string representations
+            maplist(format("~w~n"), ResultsR)     % Print results
+        ;   format("~nmwj no initial atomspace found... ~n~n")   % File not found → skip loading
         )
    ).
 
