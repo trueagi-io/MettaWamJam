@@ -35,7 +35,7 @@ Alternatively, stop the Docker container directly:
 ```bash
 docker stop mwj
 ```
-** IF YOU WANT DOCKER TO CLEAR AND RESTART YOUR ATOMSPACE AUTOMATICALLY USING /stop: **
+IF YOU WANT DOCKER TO CLEAR AND RESTART YOUR ATOMSPACE AUTOMATICALLY USING /stop:
 
    Use of the `--restart=always` parameter in your "docker run" command will force Docker to
    immediately restart the server from scratch. This is useful if you want to clear
