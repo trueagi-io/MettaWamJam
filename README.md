@@ -7,7 +7,6 @@ MWJ is not intended for public deployment without additional security hardening,
 <B>If you just want to use the handy default Docker image make sure you have Docker installed on your machine and then run the commands below. There is no need to clone the repo. The default settings will limit access to the MWJ server to your machine (ie., localhost on 127.0.0.1:5000).</B>
 
 <B>1. Pull, run the container, start your own server  (default)</B>
-<br>
 amd64
 
 ```bash
