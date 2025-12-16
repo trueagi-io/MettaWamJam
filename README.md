@@ -15,7 +15,8 @@ docker run --pull always --rm -d --name mwj -p 127.0.0.1:5000:5000 jazzbox35/mwj
 ```
 
 OR with your atomspace (mount a .metta file into the container)
-amd64
+
+amd64:
 
 ```bash
 docker run --pull always --rm -d --name mwj -p 127.0.0.1:5000:5000  -v /full/path/to/atomspace.metta:/PeTTa/mount/atomspace.metta jazzbox35/mwj:latest
