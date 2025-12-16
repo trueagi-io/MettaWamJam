@@ -20,7 +20,7 @@ arm64:
 docker run --pull always --rm -d --name mwj -p 127.0.0.1:5000:5000 ernstdoubt/mwj:arm64 
 ```
 
-OR with your atomspace (mount a .metta file into the container)
+<B>OR with your atomspace (mount a .metta file into the container)</B>
 
 amd64:
 
