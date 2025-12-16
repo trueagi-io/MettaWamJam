@@ -8,7 +8,7 @@ MWJ is not intended for public deployment without additional security hardening,
 
 <B>1. Pull, run the container, start your own server  (default)</B>
 
-amd64:
+<U>amd64:</U>
 
 ```bash
 docker run --pull always --rm -d --name mwj -p 127.0.0.1:5000:5000 jazzbox35/mwj:latest
@@ -16,7 +16,7 @@ docker run --pull always --rm -d --name mwj -p 127.0.0.1:5000:5000 jazzbox35/mwj
 
 OR with your atomspace (mount a .metta file into the container)
 
-amd64:
+<U>amd64:</U>
 
 ```bash
 docker run --pull always --rm -d --name mwj -p 127.0.0.1:5000:5000  -v /full/path/to/atomspace.metta:/PeTTa/mount/atomspace.metta jazzbox35/mwj:latest
