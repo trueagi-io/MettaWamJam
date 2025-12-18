@@ -56,7 +56,7 @@ halt(Status) :- format("Blocked halt(~w).~n", [Status]), !.
 % Register HTTP handlers for the /metta and /stop routes.
 % These handlers will be invoked when HTTP requests are made to the respective paths.
 :- http_handler(root(metta), metta, []).		
-:- http_handler(root(metta_stateless), metta_stateless, []).  
+:- http_handler(root(mettastateless), mettastateless, []).  
 :- http_handler(root(stop), stop, []).  
 
 %!  server(+Port) is det.
@@ -146,19 +146,24 @@ metta(Request) :-
         maplist(swrite,Result,ResultsR),   
         write(ResultsR).
 
-%   This variation is a temporary experimental expedient so a stateless server can be accomodated.
-metta_stateless(Request) :-
-        http_read_data(Request, Body, [to(string)]),
-        format('Content-type: application/json~n~n'),
-        % suppress output other than the result
-        with_output_to(string(_),
-                process_metta_string(Body, Result)
-            ),
-        maplist(swrite,Result,ResultsR),   
-        write(ResultsR),
-        % This presently stops the main mwj.pl. Redesign so a new process is forked and
-        % halted when finished. This program needs to keep running or Docker might have problems.
-        thread_create(( sleep(0.05),halt),_,[detached(true)]).
+%%   This variation is a temporary experimental expedient so a stateless server can be accomodated.
+mettastateless(Request) :-
+    http_read_data(Request, Body, [to(string)]),
+    format('Content-type: application/json~n~n'),
+    % suppress output other than the result
+    with_output_to(string(_),
+        (   process_metta_string(Body, Result),
+            process_metta_string('!(match &self  $x $x)', StateDump)
+        )
+    ),
+    maplist(swrite, Result,  ResultR),
+    maplist(swrite, StateDump, ResultR2),
+    % Return state with result
+    write((ResultR, ResultR2)),
+    % This presently stops the main mwj.pl. Redesign so a new process is forked and
+    % halted when finished. This program needs to keep running or Docker might have problems.
+    thread_create(( sleep(0.05), halt ), _, [detached(true)]).
+
 
 %!  stop(+Request) is det.
 %
