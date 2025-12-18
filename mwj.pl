@@ -45,7 +45,8 @@
 :- use_module(library(http/http_dispatch)).
 :- use_module(library(http/http_client)).
 :- use_module(library(http/http_json)).  
-:- use_module(library(http/http_header)).  
+:- use_module(library(http/http_header)).
+:- use_module(library(process)).
 
 
 % If the user submits a malformed query, this code will prevent a halt of the swipl server
@@ -56,7 +57,7 @@ halt(Status) :- format("Blocked halt(~w).~n", [Status]), !.
 % Register HTTP handlers for the /metta and /stop routes.
 % These handlers will be invoked when HTTP requests are made to the respective paths.
 :- http_handler(root(metta), metta, []).		
-:- http_handler(root(mettastateless), mettastateless, []).  
+:- http_handler(root(metta_stateless), metta_stateless, []).  
 :- http_handler(root(stop), stop, []).  
 
 %!  server(+Port) is det.
@@ -146,23 +147,76 @@ metta(Request) :-
         maplist(swrite,Result,ResultsR),   
         write(ResultsR).
 
-%%   This variation is a temporary experimental expedient so a stateless server can be accomodated.
-mettastateless(Request) :-
+%!  metta_stateless(+Request) is det.
+%
+%   Forks a new process to handle the request.
+%   Child provides the response, then exits.
+%
+metta_stateless(Request) :-
     http_read_data(Request, Body, [to(string)]),
+    
+    % Use temp file for large input instead of command line
+    tmp_file(input, InputFile),
+    tmp_file(output, OutputFile),
+    
+    % Write input to file
+    open(InputFile, write, InStream),
+    write(InStream, Body),
+    close(InStream),
+    
+    % Build the goal string
+    format(atom(Goal), 'run_stateless_child_from_file("~w", "~w")', [InputFile, OutputFile]),
+    
+    % Fork the process with increased stack
+    process_create(
+        path(swipl),
+        ['--stack-limit=2g', '-g', Goal, '-t', 'halt', 'mwj.pl', '--', 'child'],
+        [process(PID)]
+    ),
+    
+    % Wait for child process to complete
+    process_wait(PID, _Status),
+    
+    % Read output from file
+    (exists_file(OutputFile) ->
+        read_file_to_string(OutputFile, Output, []),
+        delete_file(OutputFile),
+        delete_file(InputFile)
+    ;
+        Output = '{"error": "Child process failed"}'
+    ),
+    
+    % Return child's response
     format('Content-type: application/json~n~n'),
-    % suppress output other than the result
+    write(Output).
+
+%!  run_stateless_child_from_file(+InputFile, +OutputFile) is det.
+%
+%   Child process reads input from file, writes output to file.
+%   Better for large inputs.
+%
+run_stateless_child_from_file(InputFile, OutputFile) :-
+    % Read input
+    read_file_to_string(InputFile, Body, []),
+    
+    % Process the MeTTa query
     with_output_to(string(_),
         (   process_metta_string(Body, Result),
-            process_metta_string('!(match &self  $x $x)', StateDump)
+            process_metta_string('!(match &self $x $x)', StateDump)
         )
     ),
-    maplist(swrite, Result,  ResultR),
+    
+    % Convert results to strings
+    maplist(swrite, Result, ResultR),
     maplist(swrite, StateDump, ResultR2),
-    % Return state with result
-    write((ResultR, ResultR2)),
-    % This presently stops the main mwj.pl. Redesign so a new process is forked and
-    % halted when finished. This program needs to keep running or Docker might have problems.
-    thread_create(( sleep(0.05), halt ), _, [detached(true)]).
+    
+    % Write to output file
+    open(OutputFile, write, OutStream),
+    format(OutStream, '~w~n~w~n', [ResultR, ResultR2]),
+    close(OutStream),
+    
+    % Child exits
+    halt.
 
 
 %!  stop(+Request) is det.
@@ -201,6 +255,9 @@ stop(_Request) :-
         [detached(true)]
     ).
 
-% Start the Prolog server
-:- server(5000),
-    thread_get_message(_).
+% Start the Prolog server only if not running as a child process
+:- (current_prolog_flag(argv, Args), memberchk('child', Args) -> 
+        true  % Child mode - don't start new server
+    ;   
+        server(5000), thread_get_message(_)  % Parent mode - start server
+   ).
