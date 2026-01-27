@@ -79,7 +79,7 @@ IF YOU WANT DOCKER TO CLEAR AND RESTART YOUR ATOMSPACE AUTOMATICALLY USING /stop
           retain the container. The --rm parameter will remove the container every run. 
           Omitting --rm will retain your container and you will have to restart it.
 
-If you wish to modify the server or would simply prefer to build it yourself, clone the repo, change the code if desired for your installation, and rebuild the Docker image using this command:
+If you wish to modify the server or would simply prefer to build it yourself, clone the repo, change the code if desired for your installation, and rebuild the Docker image using this command from inside the MettaWamJam directory:
 
 ```bash
 docker build -t mwj:latest . 
