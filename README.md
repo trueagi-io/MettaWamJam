@@ -46,6 +46,16 @@ curl -X POST http://localhost:5000/metta \
 The above command should return a result of `[3]` if the installation worked. For curl commands, always put single quotes (') around your MeTTa query to avoid shell interpolation.
 To experiment with running MeTTa code, clone the RunMeTTaCode.py program in the repo. 
 
+If you wish to use stateless mode in which the server always starts from scratch (retains no state), then use the /metta_stateless transaction. The server will return both the direct result of the call as the first argument returned followed by the resulting atomspace. 
+
+Here is an example which returns: [2][(my added atom)]
+
+
+```bash
+curl -X POST http://localhost:5000/metta \
+  -H "Content-Type: text/plain" \
+  --data '!(+ 1 1) (my added atom)'
+```
 
 <B>3. Stop the server (graceful)</B>
 ```bash
