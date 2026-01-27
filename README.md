@@ -81,7 +81,7 @@ IF YOU WANT DOCKER TO CLEAR AND RESTART YOUR ATOMSPACE AUTOMATICALLY USING /stop
 
 If you wish to modify the server, clone the repo, change the code as desired for your installation, and rebuild the Docker image using the included `Dockerfile`.
 
-If you prefer to build the docker image yourself, clone this repo, cd into MettaWamJam directory, and run this command:
+If you prefer to build the docker image yourself, clone this repo, cd into your MettaWamJam directory, and run this command:
 
 ```bash
 docker build -t mwj:latest . 
