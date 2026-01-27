@@ -46,7 +46,7 @@ curl -X POST http://localhost:5000/metta \
 The above command should return a result of `[3]` if the installation worked. For curl commands, always put single quotes (') around your MeTTa query to avoid shell interpolation.
 To experiment with running MeTTa code, clone the RunMeTTaCode.py program in the repo. 
 
-If you wish to use stateless mode in which the server always starts from scratch then use <B>/metta_stateless</B>. Note that calls using <B>/metta</B> may update atomspace. Stateless mode is useful if you would like multiple users and/or process to use a single server without trampling on a single updated, shared atomspace. The server will return both the direct result of the call as the first argument returned followed by the resulting atomspace. 
+If you wish to use stateless mode in which the server always starts from scratch then use <B>/metta_stateless</B>. Note that calls using <B>/metta</B> may update atomspace. Stateless mode is useful if you would like multiple users and/or process to use a single server without trampling on a single updated, shared atomspace. The server will return both the direct result of the call as the first argument returned followed by the resulting atomspace. This is only recommended if you are using fairly small atomspaces.
 
 Here is an example which returns: [2][(my added atom)]
 
