@@ -4,12 +4,6 @@ MWJ is a lightweight, blazing-fast SWI-Prolog HTTP server for MeTTa. It provides
 
 MWJ is not intended for public deployment without additional security hardening, so you should craft your front end, firewall, etc as needed. You could, for example, create an Apache front end facing the public internet and restrict access to the MWJ server.
 
-If you wish to modify the server or would simply prefer to build it yourself, clone the repo, change the code if desired for your installation, and rebuild the Docker image using this command from inside the MettaWamJam directory:
-
-```bash
-docker build -t mwj:latest . 
-```
-
 <B>If you just want to use the handy default Docker image make sure you have Docker installed on your machine and then run the commands below. There is no need to clone the repo. The default settings will limit access to the MWJ server to your machine (ie., localhost on 127.0.0.1:5000).</B>
 
 <B>1. Pull, run the container, start your own server  (default)</B>
@@ -84,6 +78,14 @@ IF YOU WANT DOCKER TO CLEAR AND RESTART YOUR ATOMSPACE AUTOMATICALLY USING /stop
        4) To restart, use `docker restart <container>` not `docker run...` since omitting --rm will 
           retain the container. The --rm parameter will remove the container every run. 
           Omitting --rm will retain your container and you will have to restart it.
+
+<B>BUILD THE IMAGE YOURSELF</B>
+
+If you wish to modify the server or would simply prefer to build it yourself, clone the repo, change the code if desired for your installation, and rebuild the Docker image using this command from inside the MettaWamJam directory:
+
+```bash
+docker build -t mwj:latest . 
+```
 
 "WAM" is an acronym for Warren Abstract Machine.
 "JAM" is you get fast MeTTa, MM2 in an AI toolbox!
