@@ -37,7 +37,7 @@ To pass an input atomspace, replace `/full/path/to/atomspace.metta` above with t
 
 Note: the order of ports is `host:container`, so if you want your machine to invoke the server using your machine's host port 80 you would use `127.0.0.1:80:5000`.
 
-<B>2. Send a MeTTa query (example)</B>
+<B>2. Send a MeTTa query using /metta or /metta_stateless</B>
 ```bash
 curl -X POST http://localhost:5000/metta \
   -H "Content-Type: text/plain" \
