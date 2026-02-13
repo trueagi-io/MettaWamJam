@@ -12,7 +12,7 @@ MWJ is not intended for public deployment without additional security hardening,
 amd64:
 
 ```bash
-docker run --pull always --rm -d --name mwj -p 127.0.0.1:5001:5001 trueagi/mwj:latest
+docker run --pull always --rm -d --name mwj -p 127.0.0.1:5001:5001 trueagi/mwj:amd64
 ```
 
 arm64:
@@ -26,7 +26,7 @@ docker run --pull always --rm -d --name mwj -p 127.0.0.1:5001:5000 ernstdoubt/mw
 amd64:
 
 ```bash
-docker run --pull always --rm -d --name mwj -p 127.0.0.1:5001:5001  -v /full/path/to/atomspace.metta:/PeTTa/mount/atomspace.metta trueagi/mwj:latest
+docker run --pull always --rm -d --name mwj -p 127.0.0.1:5001:5001  -v /full/path/to/atomspace.metta:/PeTTa/mount/atomspace.metta trueagi/mwj:amd64
 ```
 
 arm64:
