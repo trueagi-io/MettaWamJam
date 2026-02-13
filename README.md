@@ -1,6 +1,7 @@
 # MettaWamJam
 
-MWJ is a lightweight, blazing-fast SWI-Prolog HTTP server for MeTTa. It provides  `/metta` and `/metta_stateless` endpoints for MeTTa execution and `/stop` for controlled shutdown. MWJ runs the PeTTa transpiler for MeTTa and loads an atomspace (if provided). You can also run MM2 programs on top of MORK using this server. Please see the example Python programs in this repo for calling your MeTTa and MM2 code.
+MWJ is a lightweight, blazing-fast SWI-Prolog HTTP server for MeTTa. It provides  `/metta` and 
+`/metta_stateless` endpoints for MeTTa execution and `/stop` for controlled shutdown. MWJ runs the PeTTa transpiler for MeTTa and loads an atomspace (if provided). You can also run MM2 programs on top of MORK using this server. Please see the example Python programs in this repo for calling your MeTTa and MM2 code.
 
 MWJ is not intended for public deployment without additional security hardening, so you should craft your front end, firewall, etc as needed. You could, for example, create an Apache front end facing the public internet and restrict access to the MWJ server.
 
