@@ -6,11 +6,12 @@
 %   This program implements an HTTP server in SWI-Prolog that provides
 %   endpoints for evaluating MeTTa language expressions over HTTP. The
 %   server exposes a `/metta` endpoint for evaluating MeTTa strings and
-%   a `/stop` endpoint to gracefully shut down the server.
+%   a `/stop` endpoint to gracefully shut down the server. There is also
+%   a `/metta_stateless` endpoint for use without saving state on the server.
 %
 %   The Metta server loads a MeTTa transpiler, PeTTa from `src/metta.pl`, handles
 %   optional MeTTa file input from the command-line arguments, and initializes
-%   the HTTP server on a configurable port (default 5000).
+%   the HTTP server on a configurable port (default 5001).
 %
 %   This server is intended to be called locally only. Do not expose this
 %   server to the public internet until proper input sanitization, authentication,
@@ -21,10 +22,10 @@
 %     $ swipl mwj.pl <metta_file>
 %
 %     % Evaluate MeTTa expressions via POST example:
-%     $ curl -X POST http://localhost:5000/metta -H 'Content-Type: text/plain' --data '!(+ 1 1)'
+%     $ curl -X POST http://localhost:5001/metta -H 'Content-Type: text/plain' --data '!(+ 1 1)'
 %
 %     % Shut down the server:
-%     $ curl -v http://localhost:5000/stop
+%     $ curl -v http://localhost:5001/stop
 %     Alternatively, the docker stop command will work.
 %
 %     If your bash shell seems to hang after exit, just enter 'reset', you might not 
@@ -73,8 +74,8 @@ halt(Status) :- format("Blocked halt(~w).~n", [Status]), !.
 %   @arg Port The port number the HTTP server should listen on.
 %
 %   @example
-%     ?- server(5000).
-%     % Starts the server listening on port 5000.
+%     ?- server(5001).
+%     % Starts the server listening on port 5001.
 server(Port) :-						
         http_server(http_dispatch, [port(Port),workers(5)]).  % workers = 1 prevents multi-threading
 
@@ -140,7 +141,7 @@ server(Port) :-
 %
 %   @example
 %     % POST request:
-%     $ curl -X POST http://localhost:5000/metta -H 'Content-Type: text/plain' --data '!(+ 1 1)'
+%     $ curl -X POST http://localhost:5001/metta -H 'Content-Type: text/plain' --data '!(+ 1 1)'
 %
 metta(Request) :-
         http_read_data(Request, Body, [to(string)]),
@@ -277,5 +278,5 @@ stop(_Request) :-
 :- (current_prolog_flag(argv, Args), memberchk('child', Args) -> 
         true  % Child mode - don't start new server
     ;   
-        server(5000), thread_get_message(_)  % Parent mode - start server
+        server(5001), thread_get_message(_)  % Parent mode - start server
    ).

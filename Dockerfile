@@ -2,12 +2,6 @@
 #
 # Includes:  PeTTa, MORK, PathMap
 
-#################################################################
-#    To create arm64 if building on amd64:
-# docker buildx create --use --name mwjbuilder
-# docker buildx build --platform linux/arm64 -t mwj:arm64 --load .
-#################################################################
-
 FROM swipl:latest
 
 # Install system build tools, Python, etc
@@ -75,8 +69,8 @@ RUN sh build.sh
 #RUN pip install torch --no-cache-dir --break-system-package \
 #     --index-url https://download.pytorch.org/whl/cpu
 
-# The Prolog server listens on 5000
-EXPOSE 5000
+# The Prolog server listens on 5001
+EXPOSE 5001
 
 # Start server
 

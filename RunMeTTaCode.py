@@ -1,7 +1,7 @@
 import requests
 
 # This is the default IP/PORT
-url = "http://localhost:5000/metta"
+url = "http://localhost:5001/metta"
 headers = {"Content-Type": "text/plain; charset=utf-8" }
 
 # Place your MeTTa code below, start the MWJ server, and run this program under Python.
