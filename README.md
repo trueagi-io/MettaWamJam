@@ -18,7 +18,7 @@ docker run --pull always --rm -d --name mwj -p 127.0.0.1:5001:5001 trueagi/mwj:a
 arm64:
 
 ```bash
-docker run --pull always --rm -d --name mwj -p 127.0.0.1:5001:5001 jazzbox35/mwj:arm64 
+docker run --pull always --rm -d --name mwj -p 127.0.0.1:5001:5001 trueagi/mwj:arm64 
 ```
 
 <B>OR with your atomspace (mount a .metta file into the container)</B>
@@ -32,7 +32,7 @@ docker run --pull always --rm -d --name mwj -p 127.0.0.1:5001:5001  -v /full/pat
 arm64:
 
 ```bash
-docker run --pull always --rm -d --name mwj -p 127.0.0.1:5001:5001  -v /full/path/to/atomspace.metta:/PeTTa/mount/atomspace.metta jazzbox35/mwj:arm64
+docker run --pull always --rm -d --name mwj -p 127.0.0.1:5001:5001  -v /full/path/to/atomspace.metta:/PeTTa/mount/atomspace.metta trueagi/mwj:arm64
 ```
 To pass an input atomspace, replace `/full/path/to/atomspace.metta` above with the absolute path to your `.metta` file. For example: `/home/user/my_file.metta:/PeTTa/mount/atomspace.metta`. Don't change `:/PeTTa/mount/atomspace.metta` just change `/full/path/to/atomspace.metta` to `/home/user/my_file.metta`.
 
