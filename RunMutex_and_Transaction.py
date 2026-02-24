@@ -39,11 +39,20 @@ data = """
 
 ;while this is fine as all places modifying the (count $n) relation simultaneously (mutexinc only in this case) use the same mutex:
 !(hyperpose ((mutexinc) (mutexinc) (mutexinc) (mutexinc) (mutexinc)))
-!(test (collapse (get-atoms &temp)) ((count 42)))
+
+; test
+!(let $result (collapse (get-atoms &temp))
+	(if (== $result ((count 42)))
+		success!
+		failed!))
+
 
 ;This won't affect the count since the transaction is setup to fail:
 !(Transaction_rollback_fail_to_inc)
-!(test (collapse (get-atoms &temp)) ((count 42)))
+!(let $result (collapse (get-atoms &temp)) 
+	(if (== $result ((count 42)))
+		success!
+		failed!))
                     
 """
 

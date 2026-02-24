@@ -66,8 +66,9 @@ RUN cmake --install build
 WORKDIR /PeTTa
 RUN sh build.sh
 
-#RUN pip install torch --no-cache-dir --break-system-package \
-#     --index-url https://download.pytorch.org/whl/cpu
+# 👇 Pytorch install
+RUN pip install torch --no-cache-dir --break-system-package \
+     --index-url https://download.pytorch.org/whl/cpu
 
 # The Prolog server listens on 5001
 EXPOSE 5001

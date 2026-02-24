@@ -1,7 +1,7 @@
 import requests
 
 # This is the default IP/PORT
-url = "http://localhost:5000/metta"
+url = "http://localhost:5001/metta"
 headers = {"Content-Type": "text/plain; charset=utf-8" }
 
 # Example of using MeTTa and pytorch.
@@ -26,8 +26,11 @@ data = """
           ($L (tensor2list $C)))
          ($L $S)))
 
-!(test (myprog)
-       (((74 80 86 92) (173 188 203 218)) (2 4)))
+; test 
+!(let $result (myprog) 
+	(if (== $result (((74 80 86 92) (173 188 203 218)) (2 4)))
+		success!
+		failed!))
 
 """
 
